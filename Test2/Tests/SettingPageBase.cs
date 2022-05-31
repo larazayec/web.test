@@ -34,6 +34,11 @@ namespace Test2.Tests
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             wait.Until(ExpectedConditions.ElementToBeClickable(By.Id("save")));
         }
+        private void WaitForAlert()
+        {
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10))
+             .Until(ExpectedConditions.AlertIsPresent());
+        }
 
         [Test]
 
@@ -62,8 +67,7 @@ namespace Test2.Tests
             dateFormSeletct.SelectByText(format);
             IWebElement btnSave = driver.FindElement(By.Id("save"));
             btnSave.Click();
-            new WebDriverWait(driver, TimeSpan.FromSeconds(10))
-             .Until(ExpectedConditions.AlertIsPresent());
+            WaitForAlert();
             IAlert alert = driver.SwitchTo().Alert();
             alert.Accept();
             new WebDriverWait(driver, TimeSpan.FromSeconds(10))
@@ -86,8 +90,7 @@ namespace Test2.Tests
             currencSelect.SelectByText(curren);
             WaitForReady();
             btnSave.Click();
-            new WebDriverWait(driver, TimeSpan.FromSeconds(10))
-             .Until(ExpectedConditions.AlertIsPresent());
+            WaitForAlert();
             IAlert alert = driver.SwitchTo().Alert();
             alert.Accept();
             new WebDriverWait(driver, TimeSpan.FromSeconds(10))
@@ -125,8 +128,7 @@ namespace Test2.Tests
             namberSelect.SelectByText(formn);
             WaitForReady();
             btnSave.Click();
-            new WebDriverWait(driver, TimeSpan.FromSeconds(10))
-             .Until(ExpectedConditions.AlertIsPresent());
+            WaitForAlert();
             IAlert alert = driver.SwitchTo().Alert();
             alert.Accept();
             IWebElement depAm = driver.FindElement(By.Id("amount"));
