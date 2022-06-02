@@ -5,8 +5,6 @@ using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 using System;
 using System.Collections.Generic;
-using System.Threading;
-
 
 namespace Test2.Tests
 {
@@ -24,16 +22,19 @@ namespace Test2.Tests
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
             driver.Url = "https://localhost:5001/Settings";
         }
+
         [TearDown]
         public void TearDown()
         {
             driver.Quit();
         }
+
         private void WaitForReady()
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             wait.Until(ExpectedConditions.ElementToBeClickable(By.Id("save")));
         }
+
         private void WaitForAlert()
         {
             new WebDriverWait(driver, TimeSpan.FromSeconds(10))
@@ -41,7 +42,6 @@ namespace Test2.Tests
         }
 
         [Test]
-
         public void CurrencyVer()
         {
             List<string> actuale = new List<string>();
@@ -59,7 +59,6 @@ namespace Test2.Tests
         [TestCase("dd-MM-yyyy")]
         [TestCase("MM/dd/yyyy")]
         [TestCase("MM dd yyyy")]
-
         public void DateFormat(string format)
         {
             IWebElement dateForm = driver.FindElement(By.XPath("//select[@id='dateFormat']"));
@@ -81,7 +80,6 @@ namespace Test2.Tests
         [TestCase("€ - euro", "€")]
         [TestCase("£ - Great Britain Pound", "£")]
         [TestCase("₴ - Ukrainian hryvnia", "₴")]
-
         public void Currency(string curren,string simcur)
         {
             IWebElement currenc = driver.FindElement(By.XPath(".//select[@id='currency']"));
@@ -103,10 +101,9 @@ namespace Test2.Tests
         }
 
         [Test]
-
         public void Logut()
         {
-            IWebElement logut = driver.FindElement(By.XPath("//div[@class='login link btn btn-link']"));
+            IWebElement logut = driver.FindElement(By.XPath("//div[contains(@class, 'login')]"));
             logut.Click();
             new WebDriverWait(driver, TimeSpan.FromSeconds(10))
             .Until(ExpectedConditions.TitleContains("Login"));
@@ -119,13 +116,12 @@ namespace Test2.Tests
         [TestCase("123.456.789,00", "200.000,00", "100.000,00")]
         [TestCase("123 456 789.00", "200 000.00", "100 000.00")]
         [TestCase("123 456 789,00", "200 000,00", "100 000,00")]
-
-        public void NumbForm(string formn, string forminc, string forminter)
+        public void NumbForm(string format, string expectedincom, string expectedinterest)
         {
             IWebElement namber = driver.FindElement(By.XPath(".//select[@id='numberFormat']"));
             IWebElement btnSave = driver.FindElement(By.Id("save"));
             SelectElement namberSelect = new SelectElement(namber);
-            namberSelect.SelectByText(formn);
+            namberSelect.SelectByText(format);
             WaitForReady();
             btnSave.Click();
             WaitForAlert();
@@ -143,8 +139,8 @@ namespace Test2.Tests
             calcBut.Click();
             IWebElement income = driver.FindElement(By.Id("income"));
             IWebElement interest = driver.FindElement(By.Id("interest"));
-            Assert.AreEqual(forminc, income.GetAttribute("value"));
-            Assert.AreEqual(forminter, interest.GetAttribute("value"));
+            Assert.AreEqual(expectedincom, income.GetAttribute("value"));
+            Assert.AreEqual(expectedinterest, interest.GetAttribute("value"));
         }
     }
 }

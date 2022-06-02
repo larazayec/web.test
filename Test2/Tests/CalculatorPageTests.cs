@@ -13,6 +13,22 @@ namespace Test2.Tests
     {
         public IWebDriver driver;
 
+        [OneTimeSetUp]
+        public void ResetSetingsToDefault()
+        {
+            SetUp();
+            driver.Url = "https://localhost:5001/Settings";
+            IWebElement dateForm = driver.FindElement(By.XPath("//select[@id='dateFormat']"));
+            SelectElement dateFormSeletct = new SelectElement(dateForm);
+            dateFormSeletct.SelectByText("dd/MM/yyyy");
+            IWebElement namber = driver.FindElement(By.XPath(".//select[@id='numberFormat']"));
+            IWebElement btnSave = driver.FindElement(By.Id("save"));
+            SelectElement namberSelect = new SelectElement(namber);
+            namberSelect.SelectByText("123,456,789.00");
+            btnSave.Click();
+            TearDown();
+        }
+
         [SetUp]
         public void SetUp()
         {
@@ -22,6 +38,7 @@ namespace Test2.Tests
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
             driver.Url = "https://localhost:5001/Calculator";
         }
+
         [TearDown]
         public void TearDown()
         {
@@ -114,7 +131,7 @@ namespace Test2.Tests
             termBut.Click();
             calcBut.Click();
             IWebElement income = driver.FindElement(By.Id("income"));
-            string expected = "150 000,00";
+            string expected = "150,000.00";
             Assert.AreEqual(expected, income.GetAttribute("value"));
         }
 
