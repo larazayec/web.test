@@ -4,11 +4,7 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+using Test2.Pages;
 
 namespace Test2.Tests
 {
@@ -36,48 +32,26 @@ namespace Test2.Tests
         [TestCase("test", "newyork", "Incorrect password!")]
         public void NegativeTest(string login, string password, string expected)
         {
-            IWebElement loginFeeld = driver.FindElement(By.Id("login"));
-            IWebElement passwordFeeld = driver.FindElement(By.Id("password"));
-            IWebElement loginBut = driver.FindElement(By.Id("loginBtn"));
-            //IWebElement loginBut2 = driver.FindElement(By.ClassName("btn btn-sm btn-success"));
-            loginFeeld.SendKeys(login);
-            passwordFeeld.SendKeys(password);
-            loginBut.Click();
-            IWebElement er = driver.FindElement(By.Id("errorMessage"));
-            new WebDriverWait(driver, TimeSpan.FromSeconds(10))
-                .Until(ExpectedConditions.TextToBePresentInElement(er, expected));
-            Assert.AreEqual(expected, er.Text);
+            LoginPage loginPage = new LoginPage(driver);
+
+            loginPage.Login(login, password);
+
+            Assert.AreEqual(expected, loginPage.Error);
         }
 
         [TestCase("test")]
         [TestCase("TEST")]
         public void PositiveLoginTest(string login)
         {
-            IWebElement loginFld = driver.FindElement(By.Id("login"));
-            IWebElement passwFld = driver.FindElement(By.Id("password"));
-            IWebElement loginBut = driver.FindElement(By.Id("loginBtn"));
-            loginFld.SendKeys(login);
-            passwFld.SendKeys("newyork1");
-            loginBut.Click();
+            LoginPage loginPage = new LoginPage(driver);
+
+            loginPage.Login(login, "newyork1");
+
             new WebDriverWait(driver, TimeSpan.FromSeconds(2))
               .Until(ExpectedConditions.UrlContains("Calculator"));
             string ActualUrl = driver.Url;
             string expectedUrl = "https://localhost:5001/Calculator";
             Assert.AreEqual(expectedUrl, ActualUrl);
         }
-
-        [Test]
-        public void LabelPass()
-        {
-            IWebElement labPass = driver.FindElement(By.ClassName("pass"));
-            Thread.Sleep(600);
-            string expected = "Password:";
-            Assert.AreEqual(expected, labPass.Text);
-        }
     }
-
-   
-
-
-    
 }
