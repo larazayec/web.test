@@ -108,21 +108,16 @@ namespace Test2.Tests
             Assert.AreEqual(expected, income.GetAttribute("value"));
         }
 
-        [Test]
+        [TestCase("100000", "50", "366", "01", "January", "2022")]
 
-        public void FinancialTermN()
+        public void FinancialTermN(string deposit, string interest, string termin, string day, string month, string year)
         {
-            IWebElement depAm = driver.FindElement(By.Id("amount"));
-            IWebElement rateInt = driver.FindElement(By.Id("percent"));
-            IWebElement term = driver.FindElement(By.Id("term"));
-            depAm.SendKeys("100000");
-            rateInt.SendKeys("50");
-            term.SendKeys("366");
+            CalculatorPage calculatorPage = new CalculatorPage(driver);
+            calculatorPage.Calculator(deposit, interest, termin, day, month, year);
             IWebElement term1 = driver.FindElement(By.Id("term"));
             string expected = "0";
             Assert.AreEqual(expected, term1.GetAttribute("value"));
-            IWebElement butCalc = driver.FindElement(By.Id("calculateBtn"));
-            Assert.IsFalse(butCalc.Enabled); // кращщий варіант - перевірка що кнопка не активна
+            Assert.IsFalse(calculatorPage.CalculateButton.Enabled); // кращщий варіант - перевірка що кнопка не активна
         }
 
         [TestCase("100000", "101", "365", "01", "January", "2022")]
@@ -131,19 +126,10 @@ namespace Test2.Tests
         {
             CalculatorPage calculatorPage = new CalculatorPage(driver);
             calculatorPage.Calculator(deposit, interest, termin, day, month, year);
-            /*IWebElement depAm = driver.FindElement(By.Id("amount"));
-            IWebElement rateInt = driver.FindElement(By.Id("percent"));
-            IWebElement term = driver.FindElement(By.Id("term"));
-            IWebElement startDay = driver.FindElement(By.Id("day"));
-            IWebElement startMonth = driver.FindElement(By.Id("month"));
-            IWebElement startYear = driver.FindElement(By.Id("year"));
-            IWebElement calcBut = driver.FindElement(By.Id("calculateBtn"));
-            IWebElement termBut = driver.FindElement(By.XPath("(//input[@type='radio'])[2]"));*/
             Thread.Sleep(600);
             IWebElement rateInt1 = driver.FindElement(By.Id("percent"));
             string expected = "0";
-            IWebElement calcBut = driver.FindElement(By.Id("calculateBtn"));
-            Assert.IsFalse(calcBut.Enabled);
+            Assert.IsFalse(calculatorPage.CalculateButton.Enabled);
             Assert.AreEqual(expected, rateInt1.GetAttribute("value"));
         }
 
@@ -173,22 +159,10 @@ namespace Test2.Tests
         [TestCase("100", "100", "361", "01", "January", "2022")]
         public void TermMore360(string deposit, string interest, string termin, string day, string month, string year)
         {
-            /*IWebElement depAm = driver.FindElement(By.Id("amount"));
-            IWebElement rateInt = driver.FindElement(By.Id("percent"));
-            IWebElement term = driver.FindElement(By.Id("term"));
-            IWebElement startDay = driver.FindElement(By.Id("day"));
-            IWebElement startMonth = driver.FindElement(By.Id("month"));
-            IWebElement startYear = driver.FindElement(By.Id("year"));
-            IWebElement termBut1 = driver.FindElement(By.XPath("//*[contains ( text (), '365 days')]/./input"));
-            IWebElement termBut2 = driver.FindElement(By.XPath("//*[contains ( text (), '360 days')]/./input"));
-            depAm.SendKeys("100");
-            rateInt.SendKeys("100");
-            term.SendKeys("361");*/
             CalculatorPage calculatorPage = new CalculatorPage(driver);
             calculatorPage.Calculator(deposit, interest, termin, day, month, year);
             Assert.IsTrue(calculatorPage.FinancialYearButton1.Enabled);
             Assert.IsFalse(calculatorPage.FinancialYearButton2.Enabled);
-
         }
     }
 
