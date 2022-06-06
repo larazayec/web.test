@@ -150,16 +150,16 @@ namespace Test2.Tests
         [Test]
         public void NamesLabel()
         {
-            IWebElement depAm = driver.FindElement(By.XPath("(*//td[contains ( text(), 'Deposit' )])"));
-            IWebElement rateInt = driver.FindElement(By.XPath("//input[@id='percent']/../../td[1]"));
-            IWebElement term = driver.FindElement(By.XPath("//input[@id='term']/../../td[1]"));
-            IWebElement startDate = driver.FindElement(By.XPath("//select[@id='day']/../../td[1]"));
-            IWebElement finansYear = driver.FindElement(By.XPath("//input[@type='radio']/../../td[1]"));
-            IWebElement enterEar = driver.FindElement(By.XPath("//input[@id='interest']/../../th[1]"));
-            IWebElement incom = driver.FindElement(By.XPath("//input[@id='income']/../../th[1]"));
-            IWebElement endDay = driver.FindElement(By.XPath("//input[@id='endDate']/../../th[1]"));
-            Assert.Multiple(() => {
-                Assert.AreEqual("Deposit amount: *", depAm.Text);
+            //IWebElement depAm = driver.FindElement(By.XPath("(*//td[contains ( text(), 'Deposit' )])"));
+            //IWebElement rateInt = driver.FindElement(By.XPath("//input[@id='percent']/../../td[1]"));
+            //IWebElement term = driver.FindElement(By.XPath("//input[@id='term']/../../td[1]"));
+            //IWebElement startDate = driver.FindElement(By.XPath("//select[@id='day']/../../td[1]"));
+            //IWebElement finansYear = driver.FindElement(By.XPath("//input[@type='radio']/../../td[1]"));
+            //IWebElement enterEar = driver.FindElement(By.XPath("//input[@id='interest']/../../th[1]"));
+            //IWebElement incom = driver.FindElement(By.XPath("//input[@id='income']/../../th[1]"));
+            //IWebElement endDay = driver.FindElement(By.XPath("//input[@id='endDate']/../../th[1]"));
+            /*Assert.Multiple(() => {
+                Assert.AreEqual("Deposit amount: *", DepositField.Text);
                 Assert.AreEqual("Interest rate: *", rateInt.Text);
                 Assert.AreEqual("Investment Term: *", term.Text);
                 Assert.AreEqual("Start Date: *", startDate.Text);
@@ -167,13 +167,13 @@ namespace Test2.Tests
                 Assert.AreEqual("Interest Earned: *", enterEar.Text);
                 Assert.AreEqual("Income: *", incom.Text);
                 Assert.AreEqual("End Date: *", endDay.Text);
-            });
+            });*/
         }
 
-        [Test]
-        public void TermMore360()
+        [TestCase("100", "100", "361", "01", "January", "2022")]
+        public void TermMore360(string deposit, string interest, string termin, string day, string month, string year)
         {
-            IWebElement depAm = driver.FindElement(By.Id("amount"));
+            /*IWebElement depAm = driver.FindElement(By.Id("amount"));
             IWebElement rateInt = driver.FindElement(By.Id("percent"));
             IWebElement term = driver.FindElement(By.Id("term"));
             IWebElement startDay = driver.FindElement(By.Id("day"));
@@ -183,13 +183,11 @@ namespace Test2.Tests
             IWebElement termBut2 = driver.FindElement(By.XPath("//*[contains ( text (), '360 days')]/./input"));
             depAm.SendKeys("100");
             rateInt.SendKeys("100");
-            term.SendKeys("361");
-            SelectElement startDaySelect = new SelectElement(startDay);
-            startDaySelect.SelectByText("1");
-            startMonth.SendKeys("January");
-            startYear.SendKeys("2022");
-            Assert.IsTrue(termBut1.Enabled);
-            Assert.IsFalse(termBut2.Enabled);
+            term.SendKeys("361");*/
+            CalculatorPage calculatorPage = new CalculatorPage(driver);
+            calculatorPage.Calculator(deposit, interest, termin, day, month, year);
+            Assert.IsTrue(calculatorPage.FinancialYearButton1.Enabled);
+            Assert.IsFalse(calculatorPage.FinancialYearButton2.Enabled);
 
         }
     }

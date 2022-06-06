@@ -22,7 +22,8 @@ namespace Test2.Pages
         public IWebElement MonthField => driver.FindElement(By.XPath("//td[text()='Start Date: *']/..//select[@id='month']"));
         public IWebElement YearField => driver.FindElement(By.XPath("//td[text()='Start Date: *']/..//select[@id='year']"));
         public IWebElement CalculateButton => driver.FindElement(By.Id("calculateBtn"));
-        public IWebElement FinancialYearButton => driver.FindElement(By.XPath("//input[@type='radio']"));
+        public IWebElement FinancialYearButton1 => driver.FindElement(By.XPath("//*[contains ( text (), '365 days')]/./input"));
+        public IWebElement FinancialYearButton2 => driver.FindElement(By.XPath("//*[contains ( text (), '360 days')]/./input"));
         public IWebElement IncomeField => driver.FindElement(By.XPath("//th[text()='Income: *']/..//input"));
         public IWebElement InterestEarnedField => driver.FindElement(By.XPath("//th[text()='Interest Earned: *']/..//input"));
         public IWebElement EndDateField => driver.FindElement(By.XPath("//th[text()='End Date: *']/..//input"));
@@ -34,7 +35,7 @@ namespace Test2.Pages
             DayField.Click();
             MonthField.SendKeys(month);
             YearField.SendKeys(year);
-            FinancialYearButton.Click();
+            FinancialYearButton1.Click();
             CalculateButton.Click();
 
         }
