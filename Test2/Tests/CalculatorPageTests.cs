@@ -142,7 +142,8 @@ namespace Test2.Tests
             Thread.Sleep(600);
             IWebElement rateInt1 = driver.FindElement(By.Id("percent"));
             string expected = "0";
-            Assert.IsFalse(CalculateButton.Enabled);
+            IWebElement calcBut = driver.FindElement(By.Id("calculateBtn"));
+            Assert.IsFalse(calcBut.Enabled);
             Assert.AreEqual(expected, rateInt1.GetAttribute("value"));
         }
 
