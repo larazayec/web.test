@@ -6,12 +6,15 @@ using SeleniumExtras.WaitHelpers;
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using Test2.Pages;
 
 namespace Test2.Tests
 {
     internal class CalculatorPageTests
     {
         public IWebDriver driver;
+
+        public object CalculateButton { get; private set; }
 
         [OneTimeSetUp]
         public void ResetSetingsToDefault()
@@ -21,10 +24,10 @@ namespace Test2.Tests
             IWebElement dateForm = driver.FindElement(By.XPath("//select[@id='dateFormat']"));
             SelectElement dateFormSeletct = new SelectElement(dateForm);
             dateFormSeletct.SelectByText("dd/MM/yyyy");
-            IWebElement namber = driver.FindElement(By.XPath(".//select[@id='numberFormat']"));
+            IWebElement number = driver.FindElement(By.XPath(".//select[@id='numberFormat']"));
             IWebElement btnSave = driver.FindElement(By.Id("save"));
-            SelectElement namberSelect = new SelectElement(namber);
-            namberSelect.SelectByText("123,456,789.00");
+            SelectElement numberSelect = new SelectElement(number);
+            numberSelect.SelectByText("123,456,789.00");
             btnSave.Click();
             TearDown();
         }
@@ -50,27 +53,12 @@ namespace Test2.Tests
             wait.Until(ExpectedConditions.ElementToBeClickable(By.Id("calculateBtn")));
         }
 
-        [Test]
-        public void SecondPageEndDate()
+        [TestCase("100", "100", "365", "01", "January", "2022")]
+        public void SecondPageEndDate(string deposit, string interest, string termin, string day, string month, string year)
         {
-            IWebElement depAm = driver.FindElement(By.Id("amount"));
-            IWebElement rateInt = driver.FindElement(By.Id("percent"));
-            IWebElement term = driver.FindElement(By.Id("term"));
-            IWebElement startDay = driver.FindElement(By.Id("day"));
-            IWebElement startMonth = driver.FindElement(By.Id("month"));
-            IWebElement startYear = driver.FindElement(By.Id("year"));
-            IWebElement calcBut = driver.FindElement(By.Id("calculateBtn"));
-            IWebElement termBut = driver.FindElement(By.XPath("//input[@type='radio']"));
-            SelectElement startDaySelect = new SelectElement(startDay);
-            depAm.SendKeys("100");
-            rateInt.SendKeys("100");
-            term.SendKeys("365");
-            startDaySelect.SelectByText("1");
-            startMonth.SendKeys("January");
-            startYear.SendKeys("2022");
-            termBut.Click();
+            CalculatorPage calculatorPage = new CalculatorPage(driver);
+            calculatorPage.Calculator(deposit, interest, termin, day, month, year);
             WaitForReady();
-            calcBut.Click();
             IWebElement endDay = driver.FindElement(By.Id("endDate"));
             Assert.AreEqual("01/01/2023", endDay.GetAttribute("value"));
         }
@@ -109,27 +97,12 @@ namespace Test2.Tests
             Assert.AreEqual(expected, actuale);
         }
 
-        [Test]
+        [TestCase("100000", "50", "365", "01", "January", "2022")]
 
-        public void FinfncialYearPos()
+        public void FinfncialYearPos(string deposit, string interest, string termin, string day, string month, string year)
         {
-            IWebElement depAm = driver.FindElement(By.Id("amount"));
-            IWebElement rateInt = driver.FindElement(By.Id("percent"));
-            IWebElement term = driver.FindElement(By.Id("term"));
-            IWebElement startDay = driver.FindElement(By.Id("day"));
-            IWebElement startMonth = driver.FindElement(By.Id("month"));
-            IWebElement startYear = driver.FindElement(By.Id("year"));
-            IWebElement calcBut = driver.FindElement(By.Id("calculateBtn"));
-            IWebElement termBut = driver.FindElement(By.XPath("//input[@type='radio']"));
-            SelectElement startDaySelect = new SelectElement(startDay);
-            depAm.SendKeys("100000");
-            rateInt.SendKeys("50");
-            term.SendKeys("365");
-            startDaySelect.SelectByText("10");
-            startMonth.SendKeys("January");
-            startYear.SendKeys("2022");
-            termBut.Click();
-            calcBut.Click();
+            CalculatorPage calculatorPage = new CalculatorPage(driver);
+            calculatorPage.Calculator(deposit, interest, termin, day, month, year);
             IWebElement income = driver.FindElement(By.Id("income"));
             string expected = "150,000.00";
             Assert.AreEqual(expected, income.GetAttribute("value"));
@@ -152,26 +125,24 @@ namespace Test2.Tests
             Assert.IsFalse(butCalc.Enabled); // кращщий варіант - перевірка що кнопка не активна
         }
 
-        [Test]
+        [TestCase("100000", "101", "365", "01", "January", "2022")]
 
-        public void InterestN()
+        public void InterestN(string deposit, string interest, string termin, string day, string month, string year)
         {
-            IWebElement depAm = driver.FindElement(By.Id("amount"));
+            CalculatorPage calculatorPage = new CalculatorPage(driver);
+            calculatorPage.Calculator(deposit, interest, termin, day, month, year);
+            /*IWebElement depAm = driver.FindElement(By.Id("amount"));
             IWebElement rateInt = driver.FindElement(By.Id("percent"));
             IWebElement term = driver.FindElement(By.Id("term"));
             IWebElement startDay = driver.FindElement(By.Id("day"));
             IWebElement startMonth = driver.FindElement(By.Id("month"));
             IWebElement startYear = driver.FindElement(By.Id("year"));
             IWebElement calcBut = driver.FindElement(By.Id("calculateBtn"));
-            IWebElement termBut = driver.FindElement(By.XPath("(//input[@type='radio'])[2]"));
-            SelectElement startDaySelect = new SelectElement(startDay);
-            depAm.SendKeys("100000");
-            rateInt.SendKeys("101");
+            IWebElement termBut = driver.FindElement(By.XPath("(//input[@type='radio'])[2]"));*/
             Thread.Sleep(600);
             IWebElement rateInt1 = driver.FindElement(By.Id("percent"));
             string expected = "0";
-            IWebElement butCalc = driver.FindElement(By.Id("calculateBtn"));
-            Assert.IsFalse(butCalc.Enabled);
+            Assert.IsFalse(CalculateButton.Enabled);
             Assert.AreEqual(expected, rateInt1.GetAttribute("value"));
         }
 
