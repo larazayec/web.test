@@ -1,4 +1,6 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
+using SeleniumExtras.WaitHelpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,10 +26,8 @@ namespace Test2.Pages
         public IWebElement CalculateButton => driver.FindElement(By.Id("calculateBtn"));
         public IWebElement FinancialYearButton1 => driver.FindElement(By.XPath("//*[contains ( text (), '365 days')]/./input"));
         public IWebElement FinancialYearButton2 => driver.FindElement(By.XPath("//*[contains ( text (), '360 days')]/./input"));
-        public IWebElement IncomeField => driver.FindElement(By.XPath("//th[text()='Income: *']/..//input"));
-        public IWebElement InterestEarnedField => driver.FindElement(By.XPath("//th[text()='Interest Earned: *']/..//input"));
-        public IWebElement EndDateField => driver.FindElement(By.XPath("//th[text()='End Date: *']/..//input"));
-        public void Calculator(string deposit, string interest, string termin, string day, string month, string year)
+
+        public void Calculate(string deposit, string interest, string termin, string day, string month, string year)
         {
             DepositField.SendKeys(deposit);
             InterestField.SendKeys(interest);
@@ -36,10 +36,46 @@ namespace Test2.Pages
             MonthField.SendKeys(month);
             YearField.SendKeys(year);
             FinancialYearButton1.Click();
-            CalculateButton.Click();
-
         }
 
+        private void WaitForReady()
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(ExpectedConditions.ElementToBeClickable(CalculateButton));
+            CalculateButton.Click();
+        }
+
+        public string EndDay
+        {
+            get
+            {
+                By locator = By.XPath("//th[text()='End Date: *']/..//input");
+                new WebDriverWait(driver, TimeSpan.FromSeconds(10))
+                .Until(ExpectedConditions.ElementIsVisible(locator));
+                return driver.FindElement(locator).Text;
+            }
+        }
+        public string Income
+        {
+            get
+            {
+                By locator = By.XPath("//th[text()='Income: *']/..//input");
+                new WebDriverWait(driver, TimeSpan.FromSeconds(10))
+                .Until(ExpectedConditions.ElementIsVisible(locator));
+                return driver.FindElement(locator).Text;
+            }
+        }
+
+        public string InterestEarned
+        {
+            get
+            {
+                By locator = By.XPath("//th[text()='Interest Earned: *']/..//input");
+                new WebDriverWait(driver, TimeSpan.FromSeconds(10))
+                .Until(ExpectedConditions.ElementIsVisible(locator));
+                return driver.FindElement(locator).Text;
+            }
+        }
     }
 }
 
