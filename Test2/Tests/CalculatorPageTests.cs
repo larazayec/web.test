@@ -2,10 +2,8 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
-using SeleniumExtras.WaitHelpers;
 using System;
 using System.Collections.Generic;
-using System.Threading;
 using Test2.Pages;
 
 namespace Test2.Tests
@@ -13,7 +11,6 @@ namespace Test2.Tests
     internal class CalculatorPageTests
     {
         public IWebDriver driver;
-        public WebDriverWait wait;
 
         [OneTimeSetUp]
         public void ResetSetingsToDefault()
@@ -52,54 +49,38 @@ namespace Test2.Tests
         {
             CalculatorPage calculatorPage = new CalculatorPage(driver);
             calculatorPage.Calculate(deposit, interest, termin, day, month, year);
-            
-            //calculatorPage.WaitForReady();
             Assert.AreEqual("01/01/2023", calculatorPage.EndDay);
         }
 
         [Test]
-
         public void VerifMonth()
         {
-            List<string> actuale = new List<string>();
+            CalculatorPage calculatorPage = new CalculatorPage(driver);
             List<string> expected = new List<string>() { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
-            IWebElement startMonth = driver.FindElement(By.Id("month"));
-            SelectElement startMonthSeletct = new SelectElement(startMonth);
-            foreach (IWebElement element in startMonthSeletct.Options)
-            {
-                actuale.Add(element.Text);
-            }
-            Assert.AreEqual(expected, actuale);
+            Assert.AreEqual(expected, calculatorPage.Months);
         }
 
         [Test]
-
         public void VarifY()
         {
-            List<string> actuale = new List<string>();
+            CalculatorPage calculatorPage = new CalculatorPage(driver);
             List<string> expected = new List<string>();
-            IWebElement startYear = driver.FindElement(By.Id("year"));
-            SelectElement startYearSelect = new SelectElement(startYear);
             for (int i = 2010; i < 2030; i++)
             {
                 expected.Add(i.ToString());
             }
-            foreach (IWebElement element in startYearSelect.Options)
-            {
-                actuale.Add(element.Text);
-            }
-            Assert.AreEqual(expected, actuale);
+            Assert.AreEqual(expected, calculatorPage.Years);
         }
 
         [TestCase("100000", "50", "365", "01", "January", "2022")]
-
-        public void FinfncialYearPos(string deposit, string interest, string termin, string day, string month, string year)
+        public void FinancialYearPos(string deposit, string interest, string termin, string day, string month, string year)
         {
             CalculatorPage calculatorPage = new CalculatorPage(driver);
             calculatorPage.Calculate(deposit, interest, termin, day, month, year);
-            //IWebElement income = driver.FindElement(By.Id("income"));
             string expected = "150,000.00";
             Assert.AreEqual(expected, calculatorPage.Income);
+            string expectedInterest = "50,000.00";
+            Assert.AreEqual(expectedInterest, calculatorPage.InterestEarned);
         }
 
         [TestCase("100000", "50", "366", "01", "January", "2022")]
@@ -114,19 +95,16 @@ namespace Test2.Tests
         }
 
         [TestCase("100000", "101", "365", "01", "January", "2022")]
-
         public void InterestN(string deposit, string interest, string termin, string day, string month, string year)
         {
             CalculatorPage calculatorPage = new CalculatorPage(driver);
             calculatorPage.Calculate(deposit, interest, termin, day, month, year);
-            Thread.Sleep(600);
             string expected = "0";
             Assert.IsFalse(calculatorPage.CalculateButton.Enabled);
-            Assert.AreEqual(expected, calculatorPage.InterestField.GetAttribute("value"));
+            Assert.AreEqual(expected, calculatorPage.Interest);
         }
 
         [TestCase("100", "100", "361", "01", "January", "2022")]
-
         public void TermMore360(string deposit, string interest, string termin, string day, string month, string year)
         {
             CalculatorPage calculatorPage = new CalculatorPage(driver);
@@ -135,7 +113,6 @@ namespace Test2.Tests
             Assert.IsFalse(calculatorPage.FinancialYearButton2.Enabled);
         }
     }
-
 }
 
 
