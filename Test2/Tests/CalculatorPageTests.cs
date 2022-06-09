@@ -52,8 +52,8 @@ namespace Test2.Tests
         {
             CalculatorPage calculatorPage = new CalculatorPage(driver);
             calculatorPage.Calculate(deposit, interest, termin, day, month, year);
-
-           //calculatorPage.WaitForReady();
+            
+            //calculatorPage.WaitForReady();
             Assert.AreEqual("01/01/2023", calculatorPage.EndDay);
         }
 
@@ -109,7 +109,7 @@ namespace Test2.Tests
             CalculatorPage calculatorPage = new CalculatorPage(driver);
             calculatorPage.Calculate(deposit, interest, termin, day, month, year);
             string expected = "0";
-            Assert.AreEqual(expected, calculatorPage.TerminField.Text);
+            Assert.AreEqual(expected, calculatorPage.TerminField.GetAttribute("value"));
             Assert.IsFalse(calculatorPage.CalculateButton.Enabled); // кращщий варіант - перевірка що кнопка не активна
         }
 
@@ -122,7 +122,7 @@ namespace Test2.Tests
             Thread.Sleep(600);
             string expected = "0";
             Assert.IsFalse(calculatorPage.CalculateButton.Enabled);
-            Assert.AreEqual(expected, calculatorPage.InterestField.Text);
+            Assert.AreEqual(expected, calculatorPage.InterestField.GetAttribute("value"));
         }
 
         [TestCase("100", "100", "361", "01", "January", "2022")]

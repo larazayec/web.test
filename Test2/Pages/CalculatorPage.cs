@@ -52,7 +52,7 @@ namespace Test2.Pages
                 By locator = By.XPath("//th[text()='End Date: *']/..//input");
                 new WebDriverWait(driver, TimeSpan.FromSeconds(10))
                 .Until(ExpectedConditions.ElementIsVisible(locator));
-                return driver.FindElement(locator).Text;
+                return driver.FindElement(locator).GetAttribute("value");
             }
         }
         public string Income
@@ -62,7 +62,7 @@ namespace Test2.Pages
                 By locator = By.XPath("//th[text()='Income: *']/..//input");
                 new WebDriverWait(driver, TimeSpan.FromSeconds(10))
                 .Until(ExpectedConditions.ElementIsVisible(locator));
-                return driver.FindElement(locator).Text;
+                return driver.FindElement(locator).GetAttribute("value");
             }
         }
 
@@ -73,7 +73,7 @@ namespace Test2.Pages
                 By locator = By.XPath("//th[text()='Interest Earned: *']/..//input");
                 new WebDriverWait(driver, TimeSpan.FromSeconds(10))
                 .Until(ExpectedConditions.ElementIsVisible(locator));
-                return driver.FindElement(locator).Text;
+                return driver.FindElement(locator).GetAttribute("value");
             }
         }
     }
