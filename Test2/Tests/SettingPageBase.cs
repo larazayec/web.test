@@ -13,6 +13,11 @@ namespace Test2.Tests
     {
         private IWebDriver driver;
 
+        public SettingPage(IWebDriver driver)
+        {
+            this.driver = driver;
+        }
+
         [SetUp]
         public void SetUp()
         {
@@ -44,15 +49,9 @@ namespace Test2.Tests
         [Test]
         public void CurrencyVer()
         {
-            List<string> actuale = new List<string>();
+            SettingPage settingPage = new SettingPage(driver);
             List<string> expected = new List<string>() { "$ - US dollar", "€ - euro", "£ - Great Britain Pound", "₴ - Ukrainian hryvnia" };
-            IWebElement curren = driver.FindElement(By.Id("currency"));
-            SelectElement currenSeletct = new SelectElement(curren);
-            foreach (IWebElement element in currenSeletct.Options)
-            {
-                actuale.Add(element.Text);
-            }
-            Assert.AreEqual(expected, actuale);
+            Assert.AreEqual(expected, settingPage.CurrencyName);
         }
 
         [TestCase("dd/MM/yyyy")]
