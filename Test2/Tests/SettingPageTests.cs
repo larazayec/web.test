@@ -1,15 +1,12 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
-using SeleniumExtras.WaitHelpers;
 using System;
 using System.Collections.Generic;
 using Test2.Pages;
 
 namespace Test2.Tests
 {
-
     internal class SettingPageTests
     {
         private IWebDriver driver;
@@ -64,16 +61,13 @@ namespace Test2.Tests
             Assert.AreEqual(simcur, settingPage.simb.Text);
         }
 
-
         [Test]
         public void Logut()
         {
-            IWebElement logut = driver.FindElement(By.XPath("//div[contains(@class, 'login')]"));
-            logut.Click();
-            new WebDriverWait(driver, TimeSpan.FromSeconds(10))
-            .Until(ExpectedConditions.TitleContains("Login"));
-            string ActualUrl = driver.Url;
+            SettingPage settingPage = new SettingPage(driver);
+            settingPage.Logut();
             string expectedUrl = "https://localhost:5001/";
+            string ActualUrl = driver.Url;
             Assert.AreEqual(expectedUrl, ActualUrl);
         }
 
@@ -83,29 +77,10 @@ namespace Test2.Tests
         [TestCase("123 456 789,00", "200 000,00", "100 000,00")]
         public void NumbForm(string format, string expectedincom, string expectedinterest)
         {
-            IWebElement namber = driver.FindElement(By.XPath(".//select[@id='numberFormat']"));
-            IWebElement btnSave = driver.FindElement(By.Id("save"));
-            SelectElement namberSelect = new SelectElement(namber);
-            namberSelect.SelectByText(format);
-            //WaitForReady();
-            btnSave.Click();
-           // WaitForAlert();
-            IAlert alert = driver.SwitchTo().Alert();
-            alert.Accept();
-            IWebElement depAm = driver.FindElement(By.Id("amount"));
-            IWebElement rateInt = driver.FindElement(By.Id("percent"));
-            IWebElement term = driver.FindElement(By.Id("term"));
-            IWebElement calcBut = driver.FindElement(By.Id("calculateBtn"));
-            IWebElement termBut = driver.FindElement(By.XPath("//input[@type='radio']"));
-            depAm.SendKeys("100000");
-            rateInt.SendKeys("100");
-            term.SendKeys("365");
-            termBut.Click();
-            calcBut.Click();
-            IWebElement income = driver.FindElement(By.Id("income"));
-            IWebElement interest = driver.FindElement(By.Id("interest"));
-            Assert.AreEqual(expectedincom, income.GetAttribute("value"));
-            Assert.AreEqual(expectedinterest, interest.GetAttribute("value"));
+            SettingPage settingPage = new SettingPage(driver);
+            settingPage.NumbFormat(format, expectedincom, expectedinterest);
+            Assert.AreEqual(expectedincom, settingPage.income);
+            Assert.AreEqual(expectedinterest, settingPage.interest);
         }
     }
 }
