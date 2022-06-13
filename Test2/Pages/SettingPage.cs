@@ -24,6 +24,7 @@ namespace Test2.Pages
         public IWebElement LogutButton => driver.FindElement(By.XPath("//div[contains(@class, 'login')]"));
 
         public string EndDay => driver.FindElement(By.XPath("//th[text()='End Date: *']/..//input")).GetAttribute("value");
+        public IWebElement simb => driver.FindElement(By.Id("currency"));
 
         private void WaitForReady()
         {
@@ -37,13 +38,22 @@ namespace Test2.Pages
 
             }
         }
+        private void WaitForAlert()
+        {
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10))
+             .Until(ExpectedConditions.AlertIsPresent());
+            IAlert alert = driver.SwitchTo().Alert();
+            alert.Accept();
+        }
         public void Сonfigure(string format)
         {
             SelectElement dateFormSeletct = new SelectElement(DateFormat);
             dateFormSeletct.SelectByText(format);
             WaitForReady();
             ButtonSave.Click();
-            WaitForReady();
+            WaitForAlert();
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10))
+             .Until(ExpectedConditions.TitleContains("Deposite"));
 
         }
         public List<string> Defaultcurrenc
@@ -59,6 +69,18 @@ namespace Test2.Pages
                 return actuale;
             }
         }
+        public void Currencysymbol(string curren, string simcur)
+        {
+            SelectElement currencySelect = new SelectElement(DefaultCurrency);
+            currencySelect.SelectByText(curren);
+            WaitForReady();
+            ButtonSave.Click();
+            WaitForAlert();
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10))
+            .Until(ExpectedConditions.UrlContains("Calculator"));
+            
+        }
+           
 
     }
 

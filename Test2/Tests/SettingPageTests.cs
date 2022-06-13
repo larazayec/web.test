@@ -30,18 +30,6 @@ namespace Test2.Tests
             driver.Quit();
         }
 
-        private void WaitForReady()
-        {
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.Id("save")));
-        }
-
-        private void WaitForAlert()
-        {
-            new WebDriverWait(driver, TimeSpan.FromSeconds(10))
-             .Until(ExpectedConditions.AlertIsPresent());
-        }
-
         [Test]
         public void CurrencyVer()
         {
@@ -56,21 +44,10 @@ namespace Test2.Tests
         [TestCase("MM dd yyyy")]
         public void DateFormat(string format)
         {
-            //SettingPage settingPage = new SettingPage(driver);
-            IWebElement dateForm = driver.FindElement(By.XPath("//select[@id='dateFormat']"));
-            SelectElement dateFormSeletct = new SelectElement(dateForm);
-            dateFormSeletct.SelectByText(format);
-            IWebElement btnSave = driver.FindElement(By.Id("save"));
-            btnSave.Click();
-            WaitForAlert();
-            IAlert alert = driver.SwitchTo().Alert();
-            alert.Accept();
-            new WebDriverWait(driver, TimeSpan.FromSeconds(10))
-             .Until(ExpectedConditions.TitleContains("Deposite"));
-            IWebElement endDate = driver.FindElement(By.Id("endDate"));
+            SettingPage settingPage = new SettingPage(driver);
+            settingPage.Сonfigure(format);
             string expectedDate = DateTime.Now.ToString(format);
-            Assert.AreEqual(expectedDate, endDate.GetAttribute("value"));
-
+            Assert.AreEqual(expectedDate, settingPage.EndDay);
         }
 
         [TestCase("$ - US dollar", "$")]
@@ -79,22 +56,12 @@ namespace Test2.Tests
         [TestCase("₴ - Ukrainian hryvnia", "₴")]
         public void Currency(string curren, string simcur)
         {
-            IWebElement currenc = driver.FindElement(By.XPath(".//select[@id='currency']"));
-            IWebElement btnSave = driver.FindElement(By.Id("save"));
-            SelectElement currencSelect = new SelectElement(currenc);
-            currencSelect.SelectByText(curren);
-            WaitForReady();
-            btnSave.Click();
-            WaitForAlert();
-            IAlert alert = driver.SwitchTo().Alert();
-            alert.Accept();
-            new WebDriverWait(driver, TimeSpan.FromSeconds(10))
-            .Until(ExpectedConditions.UrlContains("Calculator"));
+            SettingPage settingPage = new SettingPage(driver);
+            settingPage.Currencysymbol(curren, simcur);
             string ActualUrl = driver.Url;
             string expectedUrl = "https://localhost:5001/Calculator";
             Assert.AreEqual(expectedUrl, ActualUrl);
-            IWebElement simb = driver.FindElement(By.Id("currency"));
-            Assert.AreEqual(simcur, simb.Text);
+            Assert.AreEqual(simcur, settingPage.simb.Text);
         }
 
 
@@ -120,9 +87,9 @@ namespace Test2.Tests
             IWebElement btnSave = driver.FindElement(By.Id("save"));
             SelectElement namberSelect = new SelectElement(namber);
             namberSelect.SelectByText(format);
-            WaitForReady();
+            //WaitForReady();
             btnSave.Click();
-            WaitForAlert();
+           // WaitForAlert();
             IAlert alert = driver.SwitchTo().Alert();
             alert.Accept();
             IWebElement depAm = driver.FindElement(By.Id("amount"));
