@@ -5,18 +5,14 @@ using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 using System;
 using System.Collections.Generic;
+using Test2.Pages;
 
 namespace Test2.Tests
 {
 
-    internal class SettingPage
+    internal class SettingPageTests
     {
         private IWebDriver driver;
-
-        public SettingPage(IWebDriver driver)
-        {
-            this.driver = driver;
-        }
 
         [SetUp]
         public void SetUp()
@@ -50,8 +46,8 @@ namespace Test2.Tests
         public void CurrencyVer()
         {
             SettingPage settingPage = new SettingPage(driver);
-            List<string> expected = new List<string>() { "$ - US dollar", "€ - euro", "£ - Great Britain Pound", "₴ - Ukrainian hryvnia" };
-            Assert.AreEqual(expected, settingPage.CurrencyName);
+            List<string> expected = new List<string>() { "$ - US dollar", "€ - euro", "£ - Great Britain Pound", "₴ - Ukrainian hryvnia"};
+            Assert.AreEqual(expected, settingPage.Defaultcurrenc);
         }
 
         [TestCase("dd/MM/yyyy")]
@@ -60,6 +56,7 @@ namespace Test2.Tests
         [TestCase("MM dd yyyy")]
         public void DateFormat(string format)
         {
+            //SettingPage settingPage = new SettingPage(driver);
             IWebElement dateForm = driver.FindElement(By.XPath("//select[@id='dateFormat']"));
             SelectElement dateFormSeletct = new SelectElement(dateForm);
             dateFormSeletct.SelectByText(format);
@@ -73,13 +70,14 @@ namespace Test2.Tests
             IWebElement endDate = driver.FindElement(By.Id("endDate"));
             string expectedDate = DateTime.Now.ToString(format);
             Assert.AreEqual(expectedDate, endDate.GetAttribute("value"));
+
         }
 
         [TestCase("$ - US dollar", "$")]
         [TestCase("€ - euro", "€")]
         [TestCase("£ - Great Britain Pound", "£")]
         [TestCase("₴ - Ukrainian hryvnia", "₴")]
-        public void Currency(string curren,string simcur)
+        public void Currency(string curren, string simcur)
         {
             IWebElement currenc = driver.FindElement(By.XPath(".//select[@id='currency']"));
             IWebElement btnSave = driver.FindElement(By.Id("save"));
@@ -98,6 +96,7 @@ namespace Test2.Tests
             IWebElement simb = driver.FindElement(By.Id("currency"));
             Assert.AreEqual(simcur, simb.Text);
         }
+
 
         [Test]
         public void Logut()
