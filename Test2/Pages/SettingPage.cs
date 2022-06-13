@@ -17,40 +17,41 @@ namespace Test2.Pages
         public IWebElement DateFormat => driver.FindElement(By.XPath("//th[text()='Date format:']/..//select[@id='dateFormat']"));
         public IWebElement DefaultCurrency => driver.FindElement(By.XPath("//th[text()='Default currency:']/..//select[@id='currency']"));
         public IWebElement NumberFormat => driver.FindElement(By.XPath("//th[text()='Number format:']/..//select[@id='numberFormat']"));
-        public IWebElement ButtonSave => driver.FindElement(By.Id("save"));
-        public IWebElement LogutButton => driver.FindElement(By.XPath("//div[contains(@class, 'login')]"));
+        public IWebElement SaveButton => driver.FindElement(By.Id("save"));
+        public IWebElement LogoutButton => driver.FindElement(By.XPath("//div[contains(@class, 'login')]"));
         public IWebElement simb => driver.FindElement(By.Id("currency"));
-
-        public string EndDay => driver.FindElement(By.XPath("//th[text()='End Date: *']/..//input")).GetAttribute("value");
 
         private void WaitForReady()
         {
             try
             {
                 WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(2));
-                wait.Until(ExpectedConditions.ElementToBeClickable(ButtonSave));
+                wait.Until(ExpectedConditions.ElementToBeClickable(SaveButton));
             }
             catch (Exception ex)
             {
             }
         }
-        private void WaitForAlert()
+
+        private void Alert()
         {
             new WebDriverWait(driver, TimeSpan.FromSeconds(10))
              .Until(ExpectedConditions.AlertIsPresent());
             IAlert alert = driver.SwitchTo().Alert();
             alert.Accept();
         }
-        public void Сonfigure(string format)
+
+        public void SetDateFormat(string format)
         {
             SelectElement dateFormSeletct = new SelectElement(DateFormat);
             dateFormSeletct.SelectByText(format);
             WaitForReady();
-            ButtonSave.Click();
-            WaitForAlert();
+            SaveButton.Click();
+            Alert();
             new WebDriverWait(driver, TimeSpan.FromSeconds(10))
              .Until(ExpectedConditions.TitleContains("Deposite"));
         }
+
         public List<string> Defaultcurrenc
         {
             get
@@ -64,19 +65,21 @@ namespace Test2.Pages
                 return actuale;
             }
         }
-        public void Currencysymbol(string curren, string simcur)
+
+        public void SetCurrency(string curren)
         {
             SelectElement currencySelect = new SelectElement(DefaultCurrency);
             currencySelect.SelectByText(curren);
             WaitForReady();
-            ButtonSave.Click();
-            WaitForAlert();
+            SaveButton.Click();
+            Alert();
             new WebDriverWait(driver, TimeSpan.FromSeconds(10))
             .Until(ExpectedConditions.UrlContains("Calculator"));
         }
-        public void Logut()
+
+        public void Logout()
         {
-            LogutButton.Click();
+            LogoutButton.Click();
             new WebDriverWait(driver, TimeSpan.FromSeconds(10))
             .Until(ExpectedConditions.TitleContains("Login"));
         }
@@ -85,8 +88,8 @@ namespace Test2.Pages
             SelectElement namberSelect = new SelectElement(NumberFormat);
             namberSelect.SelectByText(format);
             WaitForReady();
-            ButtonSave.Click();
-            WaitForAlert();
+            SaveButton.Click();
+            Alert();
             IWebElement depAm = driver.FindElement(By.Id("amount"));
             IWebElement rateInt = driver.FindElement(By.Id("percent"));
             IWebElement term = driver.FindElement(By.Id("term"));
@@ -98,7 +101,5 @@ namespace Test2.Pages
             termBut.Click();
             calcBut.Click();
         }
-        public string income => driver.FindElement(By.Id("income")).GetAttribute("value");
-        public string interest => driver.FindElement(By.Id("interest")).GetAttribute("value");
     }
 }
