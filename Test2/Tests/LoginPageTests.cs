@@ -1,8 +1,6 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
-using SeleniumExtras.WaitHelpers;
 using System;
 using Test2.Pages;
 
@@ -44,14 +42,10 @@ namespace Test2.Tests
         public void PositiveLoginTest(string login)
         {
             LoginPage loginPage = new LoginPage(driver);
+            CalculatorPage calculatorPage = new CalculatorPage(driver);
 
             loginPage.Login(login, "newyork1");
-
-            new WebDriverWait(driver, TimeSpan.FromSeconds(2))
-              .Until(ExpectedConditions.UrlContains("Calculator"));
-            string ActualUrl = driver.Url;
-            string expectedUrl = "https://localhost:5001/Calculator";
-            Assert.AreEqual(expectedUrl, ActualUrl);
+            Assert.IsTrue(calculatorPage.IsOpened);
         }
     }
 }

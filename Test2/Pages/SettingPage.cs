@@ -83,23 +83,18 @@ namespace Test2.Pages
             new WebDriverWait(driver, TimeSpan.FromSeconds(10))
             .Until(ExpectedConditions.TitleContains("Login"));
         }
-        public void NumbFormat(string format, string expectedincom, string expectedinterest)
+        public void SaveNumberFormat(string format)
         {
             SelectElement namberSelect = new SelectElement(NumberFormat);
             namberSelect.SelectByText(format);
             WaitForReady();
             SaveButton.Click();
             Alert();
-            IWebElement depAm = driver.FindElement(By.Id("amount"));
-            IWebElement rateInt = driver.FindElement(By.Id("percent"));
-            IWebElement term = driver.FindElement(By.Id("term"));
-            IWebElement calcBut = driver.FindElement(By.Id("calculateBtn"));
-            IWebElement termBut = driver.FindElement(By.XPath("//input[@type='radio']"));
-            depAm.SendKeys("100000");
-            rateInt.SendKeys("100");
-            term.SendKeys("365");
-            termBut.Click();
-            calcBut.Click();
+        }
+
+        public void Open()
+        {
+            driver.Url = "https://localhost:5001/Settings";
         }
     }
 }

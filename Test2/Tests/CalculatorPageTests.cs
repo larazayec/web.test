@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using Test2.Pages;
@@ -16,15 +15,12 @@ namespace Test2.Tests
         public void ResetSetingsToDefault()
         {
             SetUp();
-            driver.Url = "https://localhost:5001/Settings";
-            IWebElement dateForm = driver.FindElement(By.XPath("//select[@id='dateFormat']"));
-            SelectElement dateFormSeletct = new SelectElement(dateForm);
-            dateFormSeletct.SelectByText("dd/MM/yyyy");
-            IWebElement number = driver.FindElement(By.XPath(".//select[@id='numberFormat']"));
-            IWebElement btnSave = driver.FindElement(By.Id("save"));
-            SelectElement numberSelect = new SelectElement(number);
-            numberSelect.SelectByText("123,456,789.00");
-            btnSave.Click();
+
+            SettingPage settings = new SettingPage(driver);
+            settings.Open();
+            settings.SetDateFormat("dd/MM/yyyy");
+            settings.Open();    
+            settings.SaveNumberFormat("123,456,789.00");
             TearDown();
         }
 

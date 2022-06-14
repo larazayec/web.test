@@ -78,7 +78,10 @@ namespace Test2.Tests
         {
             SettingPage settingPage = new SettingPage(driver);
             CalculatorPage calculatorPage = new CalculatorPage(driver);
-            settingPage.NumbFormat(format, expectedincom, expectedinterest);
+
+            settingPage.SaveNumberFormat(format);
+            calculatorPage.Calculate("100000", "100", "365", "01", "January", "2022");
+
             Assert.AreEqual(expectedincom, calculatorPage.Income);
             Assert.AreEqual(expectedinterest, calculatorPage.InterestEarned);
         }
