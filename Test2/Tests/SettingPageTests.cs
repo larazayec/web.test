@@ -1,30 +1,17 @@
 ﻿using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
 using System;
 using System.Collections.Generic;
 using Test2.Pages;
 
 namespace Test2.Tests
 {
-    internal class SettingPageTests
+    internal class SettingPageTests : BaseTest
     {
-        private IWebDriver driver;
-
         [SetUp]
-        public void SetUp()
+        public void OpenSettings()
         {
-            var options = new ChromeOptions { AcceptInsecureCertificates = true };
-            driver = new ChromeDriver(options);
-            driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(60);
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+            OpenDriver();
             driver.Url = "https://localhost:5001/Settings";
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            driver.Quit();
         }
 
         [Test]

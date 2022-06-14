@@ -1,15 +1,11 @@
 ﻿using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using System;
 using System.Collections.Generic;
 using Test2.Pages;
 
 namespace Test2.Tests
 {
-    internal class CalculatorPageTests
+    internal class CalculatorPageTests : BaseTest
     {
-        public IWebDriver driver;
 
         [OneTimeSetUp]
         public void ResetSetingsToDefault()
@@ -27,17 +23,8 @@ namespace Test2.Tests
         [SetUp]
         public void SetUp()
         {
-            var options = new ChromeOptions { AcceptInsecureCertificates = true };
-            driver = new ChromeDriver(options);
-            driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(60);
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+            OpenDriver();
             driver.Url = "https://localhost:5001/Calculator";
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            driver.Quit();
         }
 
         [TestCase("100", "100", "365", "01", "January", "2022")]
@@ -80,7 +67,6 @@ namespace Test2.Tests
         }
 
         [TestCase("100000", "50", "366", "01", "January", "2022")]
-
         public void FinancialTermN(string deposit, string interest, string termin, string day, string month, string year)
         {
             CalculatorPage calculatorPage = new CalculatorPage(driver);
