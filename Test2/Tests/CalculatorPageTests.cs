@@ -1,47 +1,30 @@
 ﻿using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
-using System;
 using System.Collections.Generic;
 using Test2.Pages;
 
 namespace Test2.Tests
 {
-    internal class CalculatorPageTests
+    internal class CalculatorPageTests : BaseTest
     {
-        public IWebDriver driver;
 
         [OneTimeSetUp]
         public void ResetSetingsToDefault()
         {
             SetUp();
-            driver.Url = "https://localhost:5001/Settings";
-            IWebElement dateForm = driver.FindElement(By.XPath("//select[@id='dateFormat']"));
-            SelectElement dateFormSeletct = new SelectElement(dateForm);
-            dateFormSeletct.SelectByText("dd/MM/yyyy");
-            IWebElement number = driver.FindElement(By.XPath(".//select[@id='numberFormat']"));
-            IWebElement btnSave = driver.FindElement(By.Id("save"));
-            SelectElement numberSelect = new SelectElement(number);
-            numberSelect.SelectByText("123,456,789.00");
-            btnSave.Click();
+
+            SettingPage settings = new SettingPage(driver);
+            settings.Open();
+            settings.SetDateFormat("dd/MM/yyyy");
+            settings.Open();    
+            settings.SaveNumberFormat("123,456,789.00");
             TearDown();
         }
 
         [SetUp]
         public void SetUp()
         {
-            var options = new ChromeOptions { AcceptInsecureCertificates = true };
-            driver = new ChromeDriver(options);
-            driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(60);
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+            OpenDriver();
             driver.Url = "https://localhost:5001/Calculator";
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            driver.Quit();
         }
 
         [TestCase("100", "100", "365", "01", "January", "2022")]
@@ -84,7 +67,6 @@ namespace Test2.Tests
         }
 
         [TestCase("100000", "50", "366", "01", "January", "2022")]
-
         public void FinancialTermN(string deposit, string interest, string termin, string day, string month, string year)
         {
             CalculatorPage calculatorPage = new CalculatorPage(driver);

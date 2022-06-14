@@ -1,31 +1,15 @@
 ﻿using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
-using SeleniumExtras.WaitHelpers;
-using System;
 using Test2.Pages;
 
 namespace Test2.Tests
 {
-    internal class LoginPageTests
+    internal class LoginPageTests : BaseTest
     {
-        public IWebDriver driver;
-
         [SetUp]
-        public void SetaUp()
+        public void OpenLogin()
         {
-            var options = new ChromeOptions { AcceptInsecureCertificates = true };
-            driver = new ChromeDriver(options);
-            driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(60);
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+            OpenDriver();
             driver.Url = "https://localhost:5001/";
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            driver.Quit();
         }
 
         [TestCase("tes", "newyork1", "User not found!")]
@@ -44,14 +28,10 @@ namespace Test2.Tests
         public void PositiveLoginTest(string login)
         {
             LoginPage loginPage = new LoginPage(driver);
+            CalculatorPage calculatorPage = new CalculatorPage(driver);
 
             loginPage.Login(login, "newyork1");
-
-            new WebDriverWait(driver, TimeSpan.FromSeconds(2))
-              .Until(ExpectedConditions.UrlContains("Calculator"));
-            string ActualUrl = driver.Url;
-            string expectedUrl = "https://localhost:5001/Calculator";
-            Assert.AreEqual(expectedUrl, ActualUrl);
+            Assert.IsTrue(calculatorPage.IsOpened);
         }
     }
 }
