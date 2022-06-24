@@ -38,6 +38,12 @@ namespace Test2.Pages
             }
         }
 
+        public void Open()
+        {
+            driver.Url = "https://localhost:5001/Calculator";
+        }
+
+
         public void Calculate(string deposit, string interest, string termin, string day, string month, string year)
         {
             DepositField.SendKeys(deposit);

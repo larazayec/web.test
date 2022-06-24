@@ -20,13 +20,15 @@ namespace Test2.Tests
         }
 
         [Test]
-        public void ClearHistory()
+        public void LastHistory()
         {
             HistoryPage historyPage = new HistoryPage(driver);
-            IWebElement clearButton = driver.FindElement(By.Id("clear"));
-            List<string> expected = new List<string>(7) { "Amount", "%", "Term", "Year", "From", "To", "Interest", "Income"};
             CalculatorPage calculatorPage = new CalculatorPage(driver);
-            Assert.AreEqual(expected, historyPage.HistoryFirst);
+            calculatorPage.Open();
+            calculatorPage.Calculate("100000", "100", "365", "01", "January", "2022");
+            historyPage.Open();
+            List<string> expected = new List<string>() {"100,000.00", "100%", "365", "365", "01/01/2022", "01/01/2023", "100,000.00", "200,000.00"};
+            Assert.AreEqual(expected, historyPage.LastResults);
 
 
             /*IWebElement ferst = driver.FindElement(By.XPath("//table/tr/td[1]"));
