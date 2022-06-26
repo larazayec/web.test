@@ -37,7 +37,24 @@ namespace Test2.Tests
             Assert.AreEqual("100%", ferst2.Text);
             //IWebDriver arrayNames = driver.FindElement(By.XPath("//tr[@class = 'data - th']"));
             clearButton.Click();*/
-
+            List<List <string>> expected2 = new List<List<string>>()
+            {
+                new List<string>{"100,000.00", "100%", "365", "365", "01/01/2022", "01/01/2023", "100,000.00", "200,000.00" },
+                new List<string>{"100,000.00", "100%", "365", "365", "01/01/2022", "01/01/2023", "100,000.00", "200,000.00" },
+            };
+        }
+        
+        [Test]
+        public void ClearHistory()
+        {
+            HistoryPage historyPage = new HistoryPage(driver);
+            historyPage.ClearButton.Click();
+            CalculatorPage calculatorPage = new CalculatorPage(driver);
+            calculatorPage.Open();
+            historyPage.HistoryButton.Click();
+            int size = historyPage.LastResult.Count;
+            Assert.AreEqual(0, size);
+           
         }
 
     }

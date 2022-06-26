@@ -17,6 +17,7 @@ namespace Test2.Pages
         }
         public List<IWebElement> LastResult => driver.FindElements(By.XPath("//table/tr[@class='data-td'][1]/td")).ToList();
         public IWebElement ClearButton => driver.FindElement(By.Id("clear"));
+        public IWebElement HistoryButton => driver.FindElement(By.XPath("//div[@class='history link btn btn-link']"));
         public void Open()
         {
             driver.Url = "https://localhost:5001/History";
@@ -38,7 +39,20 @@ namespace Test2.Pages
                 }*/
                 return actuale;
             }
+        }
+       
 
+
+
+        public List<List<string>> AllResults
+        {
+            get
+            {
+                /*
+                 * find of all rows
+                 */
+                return null;
+            }
         }
     }
 }
