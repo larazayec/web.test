@@ -16,6 +16,7 @@ namespace Test2.Pages
             driver = webDriver;
         }
         public List<IWebElement> LastResult => driver.FindElements(By.XPath("//table/tr[@class='data-td'][1]/td")).ToList();
+        public List<IWebElement> AllResult => driver.FindElements(By.XPath("//table/tr[@class='data-td']")).ToList();
         public IWebElement ClearButton => driver.FindElement(By.Id("clear"));
         public IWebElement HistoryButton => driver.FindElement(By.XPath("//div[@class='history link btn btn-link']"));
         public void Open()
@@ -33,10 +34,6 @@ namespace Test2.Pages
                     actuale.Add(element.Text);
                 }
                 
-               /* for (int i = 6; i <= 7; i++)
-                {
-                    actuale.Add(historySelect.Options[i].Text);
-                }*/
                 return actuale;
             }
         }
@@ -44,15 +41,17 @@ namespace Test2.Pages
 
 
 
-        public List<List<string>> AllResults
+        /*public List<List<string>> AllResults
         {
             get
             {
-                /*
-                 * find of all rows
-                 */
-                return null;
+                List<List<string>> result = new List<List<string>>();
+                foreach (IWebElement element in AllResult)
+                {
+                    result.Add(cell.text);
+                }
+                return result;
             }
-        }
+        }*/
     }
 }
