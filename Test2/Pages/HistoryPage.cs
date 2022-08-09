@@ -45,5 +45,30 @@ namespace Test2.Pages
                 return actuale;
             }
         }
+
+        public List<List<string>> TableValues
+        { 
+            get
+            {
+                List<List<string>> resultValues = new List<List<string>>();
+                List<IWebElement> Rows = driver.FindElements(By.XPath("//tr")).ToList();
+
+                foreach (IWebElement row in Rows)
+                {
+                    List<string> RowValues = new List<string>();
+                    List<IWebElement> cells = row.FindElements(By.XPath(".//*")).ToList();
+
+                    foreach (IWebElement cell in cells)
+                    {
+                        RowValues.Add(cell.Text);
+                    }
+
+                    resultValues.Add(RowValues);
+
+                }
+
+                return resultValues;
+            }
+        }
     }
 }

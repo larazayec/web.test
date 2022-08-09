@@ -112,9 +112,19 @@ namespace Test2.Tests
             new HistoryPage(driver).Open();
             HistoryPage historyPage = new HistoryPage(driver);
             CalculatorPage calculatorPage = new CalculatorPage(driver);
-            List<string> expected = new List<string>() { "200.00", "100%", "365", "365", "01/01/2022", "01/01/2023", "200.00", "400.00" };
-            List<string> expected1 = new List<string>() { "1,000.00", "50%", "360", "365", "01/01/2022", "27/12/2022", "493.15", "1,493.15" };
-
+            List<List<string>> expected2 = new List<List<string>>() {
+                new List<string>() { "Amount", "%", "Term", "Year", "From", "To", "Interest", "Income" },
+                new List<string>() { "1,000.00", "50%", "360", "365", "01/01/2022", "27/12/2022", "493.15", "1,493.15" },
+                new List<string>() { "1,000.00", "50%", "360", "365", "01/01/2022", "27/12/2022", "493.15", "1,493.15" },
+                new List<string>() { "1,000.00", "50%", "360", "365", "01/01/2022", "27/12/2022", "493.15", "1,493.15" },
+                new List<string>() { "1,000.00", "50%", "360", "365", "01/01/2022", "27/12/2022", "493.15", "1,493.15" },
+                new List<string>() { "1,000.00", "50%", "360", "365", "01/01/2022", "27/12/2022", "493.15", "1,493.15" },
+                new List<string>() { "200.00", "100%", "365", "365", "01/01/2022", "01/01/2023", "200.00", "400.00" },
+                new List<string>() { "200.00", "100%", "365", "365", "01/01/2022", "01/01/2023", "200.00", "400.00" },
+                new List<string>() { "200.00", "100%", "365", "365", "01/01/2022", "01/01/2023", "200.00", "400.00" },
+                new List<string>() { "200.00", "100%", "365", "365", "01/01/2022", "01/01/2023", "200.00", "400.00" },
+                new List<string>() { "200.00", "100%", "365", "365", "01/01/2022", "01/01/2023", "200.00", "400.00" },
+            };
 
             historyPage.ClearButton.Click();
             for (int i = 0; i < 5; i++)
@@ -129,24 +139,7 @@ namespace Test2.Tests
             }
             historyPage.Open();
 
-            List<List<string>> tabelValues = new List<List<string>>();
-            List<IWebElement> Rows = driver.FindElements(By.XPath("//tr")).ToList();
-           
-            foreach (IWebElement row in Rows)
-            {
-                List<string> RowValues = new List<string>();
-                List<IWebElement> cells = row.FindElements(By.XPath(".//td")).ToList();
-
-                foreach (IWebElement cell in cells)
-                {
-                    RowValues.Add(cell.Text);
-                }
-
-                tabelValues.Add(RowValues);
-               
-            }
-            Assert.AreEqual(expected1, tabelValues[1]);
-            Assert.AreEqual(expected, tabelValues[9]);
+            Assert.AreEqual(expected2, historyPage.TableValues);
         }
     }
 }
