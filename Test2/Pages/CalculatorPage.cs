@@ -19,7 +19,11 @@ namespace Test2.Pages
         public string Interest
         {
             get => InterestField.GetAttribute("value");
-            set => InterestField.SendKeys(value);
+            set
+            {
+                InterestField.Clear();
+                InterestField.SendKeys(value);
+            }
         }
         public IWebElement TerminField => driver.FindElement(By.XPath("//td[text()='Investment Term: *']/..//input"));
         public IWebElement DayField => driver.FindElement(By.XPath("//td[text()='Start Date: *']/..//option[@value='1']"));
@@ -48,8 +52,7 @@ namespace Test2.Pages
         {
             DepositField.Clear();
             DepositField.SendKeys(deposit);
-            InterestField.Clear();
-            InterestField.SendKeys(interest);
+            Interest = interest;
             TerminField.Clear();
             TerminField.SendKeys(termin);
             DayField.Click();

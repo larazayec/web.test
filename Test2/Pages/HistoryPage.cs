@@ -17,7 +17,6 @@ namespace Test2.Pages
 
         public int HistoryCount => TableValues.Count() - 1;
         public IWebElement ClearButton => driver.FindElement(By.Id("clear"));
-        public IWebElement HistoryButton => driver.FindElement(By.XPath("//div[@class='history link btn btn-link']"));
 
         public void Open()
         {

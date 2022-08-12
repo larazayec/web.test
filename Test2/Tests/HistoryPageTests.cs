@@ -49,10 +49,12 @@ namespace Test2.Tests
             HistoryPage historyPage = new HistoryPage(driver);
             CalculatorPage calculatorPage = new CalculatorPage(driver);
 
+            historyPage.Open();
             historyPage.ClearButton.Click();
+            calculatorPage.Open();
+
             for (int i = 0; i < 10; i++)
             {
-                calculatorPage.Open();
                 calculatorPage.Calculate("100000", "100", "365", "01", "January", "2022");
             }
             historyPage.Open();
@@ -61,7 +63,7 @@ namespace Test2.Tests
         }
 
         [Test]
-        public void HistoryTable()
+        public void VerifyHistoryTableTest()
         {
             new HistoryPage(driver).Open();
             HistoryPage historyPage = new HistoryPage(driver);
