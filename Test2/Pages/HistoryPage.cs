@@ -14,10 +14,11 @@ namespace Test2.Pages
         {
             driver = webDriver;
         }
-        public List<IWebElement> LastResult => driver.FindElements(By.XPath("//table/tr[@class='data-td'][1]/td")).ToList();
-        public List<IWebElement> Rows => driver.FindElements(By.XPath("//table/tr[@class='data-td']")).ToList();
+
+        public int HistoryCount => TableValues.Count() - 1;
         public IWebElement ClearButton => driver.FindElement(By.Id("clear"));
         public IWebElement HistoryButton => driver.FindElement(By.XPath("//div[@class='history link btn btn-link']"));
+
         public void Open()
         {
             driver.Url = "https://localhost:5001/History";
@@ -29,20 +30,6 @@ namespace Test2.Pages
             catch (Exception ex)
             {
 
-            }
-        }
-
-        public List<string> LastResults
-        {
-            get
-            {
-                List<string> actuale = new List<string>();
-                foreach (IWebElement element in LastResult)
-                {
-                    actuale.Add(element.Text);
-                }
-                
-                return actuale;
             }
         }
 
