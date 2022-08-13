@@ -15,11 +15,15 @@ namespace Test2.Pages
         }
 
         public IWebElement DepositField => driver.FindElement(By.XPath("//td[text()='Deposit amount: *']/..//input"));
-        private IWebElement InterestField => driver.FindElement(By.XPath("//td[text()='Interest rate: *']/..//input"));
+        public IWebElement InterestField => driver.FindElement(By.XPath("//td[text()='Interest rate: *']/..//input"));
         public string Interest
         {
             get => InterestField.GetAttribute("value");
-            set => InterestField.SendKeys(value);
+            set
+            {
+                InterestField.Clear();
+                InterestField.SendKeys(value);
+            }
         }
         public IWebElement TerminField => driver.FindElement(By.XPath("//td[text()='Investment Term: *']/..//input"));
         public IWebElement DayField => driver.FindElement(By.XPath("//td[text()='Start Date: *']/..//option[@value='1']"));
@@ -38,10 +42,18 @@ namespace Test2.Pages
             }
         }
 
+        public void Open()
+        {
+            driver.Url = "https://localhost:5001/Calculator";
+        }
+
+
         public void Calculate(string deposit, string interest, string termin, string day, string month, string year)
         {
+            DepositField.Clear();
             DepositField.SendKeys(deposit);
             Interest = interest;
+            TerminField.Clear();
             TerminField.SendKeys(termin);
             DayField.Click();
             MonthField.SendKeys(month);
