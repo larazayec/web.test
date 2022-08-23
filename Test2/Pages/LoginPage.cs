@@ -38,6 +38,8 @@ namespace Test2.Pages
             }
         }
 
+        public bool? IsOpened { get; internal set; }
+
         public void Login(string login, string password)
         {
             LoginField.SendKeys(login);

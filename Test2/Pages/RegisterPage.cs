@@ -1,8 +1,11 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
+using SeleniumExtras.WaitHelpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Test2.Pages
@@ -21,6 +24,14 @@ namespace Test2.Pages
         public IWebElement RegisterButton => driver.FindElement(By.Id("register"));
         public IWebElement ReturnLoginButton => driver.FindElement(By.XPath("//div[contains(@class, 'login link btn btn-link')]"));
 
+        private void Alert()
+        {
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10))
+             .Until(ExpectedConditions.AlertIsPresent());
+            IAlert alert = driver.SwitchTo().Alert();
+            alert.Accept();
+        }
+
         public void Registration(string login, string email, string password, string confirmpassword)
         {
             LoginField.SendKeys(login);
@@ -28,7 +39,15 @@ namespace Test2.Pages
             PasswordField.SendKeys(password);
             ConfirmField.SendKeys(confirmpassword);
             RegisterButton.Click();
+            Alert();
         }
-
+           
+        public bool IsOpened
+        {
+            get
+            {
+               return driver.Url == "https://localhost:5001/";
+            }
+        }
     }
 }
