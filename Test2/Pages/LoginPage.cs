@@ -25,6 +25,7 @@ namespace Test2.Pages
             }
         }
 
+        public IWebElement RegisterButton => driver.FindElement(By.XPath("//div[contains(@class, 'register')]"));
         public IWebElement PasswordField => driver.FindElement(By.XPath("//th[text()='Password:']/..//input"));
         public IWebElement LoginButton => driver.FindElement(By.Id("loginBtn"));
         public string Error
@@ -38,13 +39,18 @@ namespace Test2.Pages
             }
         }
 
-        public bool? IsOpened { get; internal set; }
+        /*public bool IsOpened { get; internal set; }*/
 
         public void Login(string login, string password)
         {
             LoginField.SendKeys(login);
             PasswordField.SendKeys(password);
             LoginButton.Click();
+        }
+
+        public void Open()
+        {
+            driver.Url = "https://localhost:5001/";
         }
     }
 }

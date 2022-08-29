@@ -16,6 +16,9 @@ namespace Test2.Tests
         [TestCase("test", "newyork", "Incorrect password!")]
         public void NegativeTest(string login, string password, string expected)
         {
+            /*RegisterPage registerPage = new RegisterPage(driver);
+            registerPage.Open();
+            registerPage.Registration("test", "test@test.com", "newyork1", "newyork1");*/
             LoginPage loginPage = new LoginPage(driver);
 
             loginPage.Login(login, password);
