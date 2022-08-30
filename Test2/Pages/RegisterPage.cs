@@ -41,7 +41,7 @@ namespace Test2.Pages
             EmailField.SendKeys(email);
             PasswordField.SendKeys(password);
             ConfirmField.SendKeys(confirmpassword);
-            RegisterButton.Click();
+            //RegisterButton.Click();
             //Alert();
         }
 
@@ -73,6 +73,17 @@ namespace Test2.Pages
             loginPage.Open();
             loginPage.RegisterButton.Click();
             WaitForReady();
+        }
+
+        public string Error
+        {
+            get
+            {
+                By locator = By.Id("errorMessage");
+                new WebDriverWait(driver, TimeSpan.FromSeconds(10))
+                .Until(ExpectedConditions.ElementIsVisible(locator));
+                return driver.FindElement(locator).Text;
+            }
         }
     }
 }

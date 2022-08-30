@@ -34,9 +34,27 @@ namespace Test2.Tests
             registerPage.Open();
            
             registerPage.Registration(login, email, password, confirmpassword);
+            registerPage.RegisterButton.Click();
             registerPage.Alert();
            
             Assert.IsTrue(registerPage.IsOpened);
-        }       
+        }
+
+        [TestCase(" ", "test@test.com", "newyork1", "newyork1", "Incorrect login!")]
+        public void RegisterIncorrectLogin(string login, string email, string password, string confirmpassword, string expected)
+        {
+            RegisterPage registerPage = new RegisterPage(driver);
+            registerPage.Open();
+
+            registerPage.Registration(login, email, password, confirmpassword);
+            registerPage.RegisterButton.Click();
+            //Assert.IsFalse(registerPage.RegisterButton.Enabled);
+            Assert.AreEqual(expected, registerPage.Error);
+
+            string ActualUrl = driver.Url;
+            string expectedUrl = "https://localhost:5001/Register";
+            Assert.AreEqual(expectedUrl, ActualUrl);
+        }
     }
+
 }
