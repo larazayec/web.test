@@ -55,6 +55,55 @@ namespace Test2.Tests
             string expectedUrl = "https://localhost:5001/Register";
             Assert.AreEqual(expectedUrl, ActualUrl);
         }
+
+        [TestCase("test", "testtest.com", "newyork1", "newyork1", "Invalid email.")]
+        public void RegisterIncorrectEmail(string login, string email, string password, string confirmpassword, string expected)
+        {
+            RegisterPage registerPage = new RegisterPage(driver);
+            registerPage.Open();
+
+            registerPage.Registration(login, email, password, confirmpassword);
+            registerPage.RegisterButton.Click();
+            //Assert.IsFalse(registerPage.RegisterButton.Enabled);
+            Assert.AreEqual(expected, registerPage.Error);
+
+            string ActualUrl = driver.Url;
+            string expectedUrl = "https://localhost:5001/Register";
+            Assert.AreEqual(expectedUrl, ActualUrl);
+        }
+
+        [TestCase("test", " ", "newyork1", "newyork1", "Invalid email.")]
+        public void RegisterEmailEmpty(string login, string email, string password, string confirmpassword, string expected)
+        {
+            RegisterPage registerPage = new RegisterPage(driver);
+            registerPage.Open();
+
+            registerPage.Registration(login, email, password, confirmpassword);
+            registerPage.RegisterButton.Click();
+            //Assert.IsFalse(registerPage.RegisterButton.Enabled);
+            Assert.AreEqual(expected, registerPage.Error);
+
+            string ActualUrl = driver.Url;
+            string expectedUrl = "https://localhost:5001/Register";
+            Assert.AreEqual(expectedUrl, ActualUrl);
+        }
+
+        [TestCase("test", "test@test", "newyork1", "newyork1", "Invalid email.")]
+        public void RegisterIncorrectEmailDomen(string login, string email, string password, string confirmpassword, string expected)
+        {
+            RegisterPage registerPage = new RegisterPage(driver);
+            registerPage.Open();
+
+            registerPage.Registration(login, email, password, confirmpassword);
+            registerPage.RegisterButton.Click();
+            //Assert.IsFalse(registerPage.RegisterButton.Enabled);
+            Assert.AreEqual(expected, registerPage.Error);
+
+            string ActualUrl = driver.Url;
+            string expectedUrl = "https://localhost:5001/Register";
+            Assert.AreEqual(expectedUrl, ActualUrl);
+        }
     }
+
 
 }
