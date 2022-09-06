@@ -57,6 +57,9 @@ namespace Test2.Tests
         }
 
         [TestCase("test", "testtest.com", "newyork1", "newyork1", "Invalid email.")]
+        [TestCase("test", "@@test.com", "newyork1", "newyork1", "Invalid email.")]
+        [TestCase("test", " ", "newyork1", "newyork1", "Invalid email.")]
+        [TestCase("test", "test@test", "newyork1", "newyork1", "Invalid email.")]
         public void RegisterIncorrectEmail(string login, string email, string password, string confirmpassword, string expected)
         {
             RegisterPage registerPage = new RegisterPage(driver);
@@ -72,24 +75,12 @@ namespace Test2.Tests
             Assert.AreEqual(expectedUrl, ActualUrl);
         }
 
-        [TestCase("test", " ", "newyork1", "newyork1", "Invalid email.")]
-        public void RegisterEmailEmpty(string login, string email, string password, string confirmpassword, string expected)
-        {
-            RegisterPage registerPage = new RegisterPage(driver);
-            registerPage.Open();
-
-            registerPage.Registration(login, email, password, confirmpassword);
-            registerPage.RegisterButton.Click();
-            //Assert.IsFalse(registerPage.RegisterButton.Enabled);
-            Assert.AreEqual(expected, registerPage.Error);
-
-            string ActualUrl = driver.Url;
-            string expectedUrl = "https://localhost:5001/Register";
-            Assert.AreEqual(expectedUrl, ActualUrl);
-        }
-
-        [TestCase("test", "test@test", "newyork1", "newyork1", "Invalid email.")]
-        public void RegisterIncorrectEmailDomen(string login, string email, string password, string confirmpassword, string expected)
+        [TestCase("test", "test@test.com", " ", " ", "Password is too short.")]
+        [TestCase("test", "test@test.com", "1111", "1111", "Password is too short.")]
+        [TestCase("test", "test@test.com", "newyork1", "newyork", "Passwords are different.")]
+        [TestCase("test", "test@test.com", "new", "newyork1", "Passwords are different.")]
+        [TestCase("test", "test@test.com", "12345678912345678", "12345678912345678", "Password from 5 to 16 characters.")]
+        public void RegisterIncorrectPassword(string login, string email, string password, string confirmpassword, string expected)
         {
             RegisterPage registerPage = new RegisterPage(driver);
             registerPage.Open();
