@@ -40,6 +40,11 @@ namespace WebSite.Controllers
                 return Conflict("Password is too short.");
             }
 
+            if (dto.Password.Trim().Length > 16)
+            {
+                return Conflict("Password from 5 to 16 characters.");
+            }
+            
             Users.Add(dto);
 
             return Json("OK");
