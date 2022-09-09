@@ -20,7 +20,6 @@ namespace Test2.Pages
         public IWebElement LoginField => driver.FindElement(By.Id("login"));
         public IWebElement EmailField => driver.FindElement(By.Id("email"));
 
-
         public IWebElement PasswordField => driver.FindElement(By.Id("password1"));
         public IWebElement ConfirmField => driver.FindElement(By.Id("password2"));
         public IWebElement RegisterButton => driver.FindElement(By.Id("register"));
@@ -87,4 +86,3 @@ namespace Test2.Pages
         }
     }
 }
-

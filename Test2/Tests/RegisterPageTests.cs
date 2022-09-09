@@ -17,15 +17,7 @@ namespace Test2.Tests
         {
             OpenDriver();
             driver.Url = "https://localhost:5001/api/register/deleteAll";
-            /*driver.Url = "https://localhost:5001/Register";
-            new WebDriverWait(driver, TimeSpan.FromSeconds(10)).Until(ExpectedConditions.TitleContains("Login"));*/
         }
-        /*[TearDown]
-        public void DelAllUsers()
-        {
-            OpenDriver();
-            driver.Url = "https://localhost:5001/api/register/deleteAll";
-        }*/
 
         [TestCase("test", "test@test.com", "newyork1", "newyork1")]
         public void RegisterPositive(string login, string email, string password, string confirmpassword)
@@ -38,6 +30,29 @@ namespace Test2.Tests
             registerPage.Alert();
            
             Assert.IsTrue(registerPage.IsOpened);
+        }
+
+        [TestCase("test", "test@test.com", "newyork1", "newyork1", "User with this email is already registered.")]
+        public void ReRegistration(string login, string email, string password, string confirmpassword, string expected)
+        {
+            RegisterPage registerPage = new RegisterPage(driver);
+            LoginPage loginPage = new LoginPage(driver);
+            registerPage.Open();
+
+            registerPage.Registration(login, email, password, confirmpassword);
+            registerPage.RegisterButton.Click();
+            registerPage.Alert();
+
+            Assert.IsTrue(registerPage.IsOpened);
+            loginPage.RegisterButton.Click();
+            registerPage.Registration(login, email, password, confirmpassword);
+            registerPage.RegisterButton.Click();
+            Assert.AreEqual(expected, registerPage.Error);
+
+            string ActualUrl = driver.Url;
+            string expectedUrl = "https://localhost:5001/Register";
+            Assert.AreEqual(expectedUrl, ActualUrl);
+
         }
 
         [TestCase(" ", "test@test.com", "newyork1", "newyork1", "Incorrect login!")]
@@ -94,6 +109,7 @@ namespace Test2.Tests
             string expectedUrl = "https://localhost:5001/Register";
             Assert.AreEqual(expectedUrl, ActualUrl);
         }
+
     }
 
 
