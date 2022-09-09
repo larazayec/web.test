@@ -85,4 +85,8 @@ namespace Test2.Pages
             }
         }
     }
+    /*Randomizer randomizer = new Randomizer();
+    string allowedChars = "abcd1234";
+    string name = randomizer.GetString(10, allowedChars);
+    string email = randomizer.GetString(15, allowedChars) + "@mail.com";*/
 }
