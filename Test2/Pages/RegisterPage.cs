@@ -2,11 +2,6 @@
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Test2.Pages
 {
@@ -40,8 +35,6 @@ namespace Test2.Pages
             EmailField.SendKeys(email);
             PasswordField.SendKeys(password);
             ConfirmField.SendKeys(confirmpassword);
-            //RegisterButton.Click();
-            //Alert();
         }
 
         public bool IsOpened
@@ -85,8 +78,4 @@ namespace Test2.Pages
             }
         }
     }
-    /*Randomizer randomizer = new Randomizer();
-    string allowedChars = "abcd1234";
-    string name = randomizer.GetString(10, allowedChars);
-    string email = randomizer.GetString(15, allowedChars) + "@mail.com";*/
 }

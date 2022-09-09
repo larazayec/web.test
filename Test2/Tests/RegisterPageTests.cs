@@ -1,11 +1,4 @@
 ﻿using NUnit.Framework;
-using OpenQA.Selenium.Support.UI;
-using SeleniumExtras.WaitHelpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Test2.Pages;
 
 namespace Test2.Tests
@@ -52,7 +45,6 @@ namespace Test2.Tests
             string ActualUrl = driver.Url;
             string expectedUrl = "https://localhost:5001/Register";
             Assert.AreEqual(expectedUrl, ActualUrl);
-
         }
 
         [TestCase(" ", "test@test.com", "newyork1", "newyork1", "Incorrect login!")]
@@ -65,7 +57,7 @@ namespace Test2.Tests
         [TestCase("test", "test@test.com", "newyork1", "newyork", "Passwords are different.")]
         [TestCase("test", "test@test.com", "new", "newyork1", "Passwords are different.")]
         [TestCase("test", "test@test.com", "12345678912345678", "12345678912345678", "Password from 5 to 16 characters.")]
-        public void RegisterIncorrectEmail(string login, string email, string password, string confirmpassword, string expected)
+        public void RegisterNegativeTests(string login, string email, string password, string confirmpassword, string expected)
         {
             RegisterPage registerPage = new RegisterPage(driver);
             registerPage.Open();
@@ -80,6 +72,4 @@ namespace Test2.Tests
             Assert.AreEqual(expectedUrl, ActualUrl);
         }
     }
-
-
 }
