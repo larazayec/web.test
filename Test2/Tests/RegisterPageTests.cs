@@ -64,7 +64,6 @@ namespace Test2.Tests
 
             registerPage.Registration(login, email, password, confirmpassword);
             registerPage.RegisterButton.Click();
-            //Assert.IsFalse(registerPage.RegisterButton.Enabled);
             Assert.AreEqual(expected, registerPage.Error);
 
             string ActualUrl = driver.Url;
