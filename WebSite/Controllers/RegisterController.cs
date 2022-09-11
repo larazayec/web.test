@@ -30,11 +30,21 @@ namespace WebSite.Controllers
                 return Conflict("User with this login is already registered.");
             }
 
+            if (dto.Login.Trim().Length == 0)
+            {
+                return Conflict("Incorrect login!");
+            }
+
             if (dto.Password.Trim().Length < 5)
             {
                 return Conflict("Password is too short.");
             }
 
+            if (dto.Password.Trim().Length > 16)
+            {
+                return Conflict("Password from 5 to 16 characters.");
+            }
+            
             Users.Add(dto);
 
             return Json("OK");
