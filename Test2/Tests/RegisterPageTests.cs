@@ -16,13 +16,14 @@ namespace Test2.Tests
         public void RegisterPositive(string login, string email, string password, string confirmpassword)
         {
             RegisterPage registerPage = new RegisterPage(driver);
+            LoginPage loginPage = new LoginPage(driver);
             registerPage.Open();
            
             registerPage.Registration(login, email, password, confirmpassword);
             registerPage.RegisterButton.Click();
-            registerPage.Alert();
+            registerPage.AcceptAlert();
            
-            Assert.IsTrue(registerPage.IsOpened);
+            Assert.IsTrue(loginPage.IsOpened);
         }
 
         [TestCase("test", "test@test.com", "newyork1", "newyork1", "User with this email is already registered.")]
@@ -34,9 +35,9 @@ namespace Test2.Tests
 
             registerPage.Registration(login, email, password, confirmpassword);
             registerPage.RegisterButton.Click();
-            registerPage.Alert();
+            registerPage.AcceptAlert();
 
-            Assert.IsTrue(registerPage.IsOpened);
+            Assert.IsTrue(loginPage.IsOpened);
             loginPage.RegisterButton.Click();
             registerPage.Registration(login, email, password, confirmpassword);
             registerPage.RegisterButton.Click();

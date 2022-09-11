@@ -23,7 +23,7 @@ namespace Test2.Pages
 
         public IWebElement RegisterButton => driver.FindElement(By.Id("register"));
 
-        public void Alert()
+        public void AcceptAlert()
         {
             new WebDriverWait(driver, TimeSpan.FromSeconds(10))
              .Until(ExpectedConditions.AlertIsPresent());
@@ -37,15 +37,6 @@ namespace Test2.Pages
             EmailField.SendKeys(email);
             PasswordField.SendKeys(password);
             ConfirmField.SendKeys(confirmpassword);
-        }
-
-        public bool IsOpened
-        {
-            get
-            {
-                WaitForReady();
-                return driver.Url == "https://localhost:5001/";
-            }
         }
 
         private void WaitForReady()

@@ -39,8 +39,6 @@ namespace Test2.Pages
             }
         }
 
-        /*public bool IsOpened { get; internal set; }*/
-
         public void Login(string login, string password)
         {
             LoginField.SendKeys(login);
@@ -51,6 +49,13 @@ namespace Test2.Pages
         public void Open()
         {
             driver.Url = "https://localhost:5001/";
+        }
+        public bool IsOpened
+        {
+            get
+            {
+                return driver.Url == "https://localhost:5001/";
+            }
         }
     }
 }
