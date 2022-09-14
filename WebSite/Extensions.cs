@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Linq;
 using WebSite.DB;
+using System.Net.Mail;
 
 namespace WebSite
 {
@@ -11,7 +12,9 @@ namespace WebSite
         {
             try
             {
-                return new System.Net.Mail.MailAddress(email).Address == email;
+                var mailAddress = new MailAddress(email);
+
+                return mailAddress.Host.Contains(".") && !mailAddress.Host.EndsWith(".") && mailAddress.Address == email;
             }
             catch
             {
