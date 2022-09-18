@@ -23,7 +23,7 @@ namespace Test2.Tests
         [TearDown]
         public void TearDown()
         {
-            driver.Quit();
+            //driver.Quit();
         }
 
         public void CreateTestUser()

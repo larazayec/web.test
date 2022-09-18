@@ -28,6 +28,7 @@ namespace Test2.Pages
         public IWebElement RegisterButton => driver.FindElement(By.XPath("//div[contains(@class, 'register')]"));
         public IWebElement PasswordField => driver.FindElement(By.XPath("//th[text()='Password:']/..//input"));
         public IWebElement LoginButton => driver.FindElement(By.Id("loginBtn"));
+        public IWebElement RemindPasswordButton => driver.FindElement(By.Id("remindBtn"));
         public string Error
         {
             get
