@@ -60,7 +60,7 @@ namespace Test2.Pages
             WaitForReady();
         }
 
-        public string Error
+        public string Message
         {
             get
             {

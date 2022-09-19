@@ -41,7 +41,7 @@ namespace Test2.Tests
             loginPage.RegisterButton.Click();
             registerPage.Registration(login, email, password, confirmpassword);
             registerPage.RegisterButton.Click();
-            Assert.AreEqual(expected, registerPage.Error);
+            Assert.AreEqual(expected, registerPage.Message);
 
             string ActualUrl = driver.Url;
             string expectedUrl = "https://localhost:5001/Register";
@@ -65,7 +65,7 @@ namespace Test2.Tests
 
             registerPage.Registration(login, email, password, confirmpassword);
             registerPage.RegisterButton.Click();
-            Assert.AreEqual(expected, registerPage.Error);
+            Assert.AreEqual(expected, registerPage.Message);
 
             string ActualUrl = driver.Url;
             string expectedUrl = "https://localhost:5001/Register";

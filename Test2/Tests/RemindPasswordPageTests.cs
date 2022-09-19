@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,14 +15,26 @@ namespace Test2.Tests
         public void OpenLogin()
         {
             OpenDriver();
-            driver.Url = "https://localhost:5001/";
+            driver.Url = "https://localhost:5001/Register";
+            RegisterPage registerPage = new RegisterPage(driver);
+            registerPage.Registration("lara", "lara.zayec@gmail.com", "123456", "123456");
+            registerPage.RegisterButton.Click();
+            registerPage.AcceptAlert();
         }
 
-        [Test]
-        public void Remind()
+        [TestCase("lara.zayec@gmail.com", "The password has been sent to this email.")]
+        public void Remind(string email, string expected)
         {
             LoginPage loginPage = new LoginPage(driver);
+            RemindPasswordPage remindPassword = new RemindPasswordPage(driver);
+            RegisterPage registerPage = new RegisterPage(driver);
+
             loginPage.RemindPasswordButton.Click();
+            
+            driver.SwitchTo().Frame(0);
+            remindPassword.RemindPassword(email);
+            remindPassword.AcceptAlert();
+            Assert.AreEqual(expected, registerPage.Message);
         }
     }
 }
